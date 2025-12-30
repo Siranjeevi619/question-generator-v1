@@ -5,11 +5,17 @@ question_prompt = PromptTemplate(
     template="""
 You are an expert educator.
 
-Generate {count} {level}-level questions on the topic "{topic}".
+TASK:
+Generate EXACTLY {count} {level}-level questions on the topic "{topic}".
 
-Rules:
+RULES (MANDATORY):
+- Output must be a numbered list from 1 to {count}
+- Each question must be on a NEW line
 - Do NOT include answers
-- Number the questions
-- Keep them clear and simple
+- Do NOT combine questions
+- Do NOT add explanations
+- ONLY output the questions list
+
+Start now.
 """
 )
