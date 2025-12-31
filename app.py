@@ -1,38 +1,37 @@
-from transformers import pipeline
-from langchain_community.llms import HuggingFacePipeline
-from langchain_core.prompts import PromptTemplate
+import streamlit as st
+from question_generator import generate_questions
 
-pipe = pipeline(
-    "text2text-generation",
-    model="google/flan-t5-base",
-    max_new_tokens=512,
-    temperature=0.3,
-    do_sample=False
+st.set_page_config(
+    page_title="AI Question Generator",
+    layout="centered"
 )
 
-llm = HuggingFacePipeline(pipeline=pipe)
+st.title("🧠 AI Question Generator")
+st.write("Generate interview questions using LangChain + Groq")
 
-question_prompt = PromptTemplate(
-    input_variables=["topic", "level", "count"],
-    template="""
-You are an expert educator.
+# ---- Inputs ----
+topic = st.text_input("Topic", value="JVM")
 
-Generate EXACTLY {count} {level}-level questions on "{topic}".
-
-Rules:
-- Number from 1 to {count}
-- Each question on a new line
-- No answers
-- No explanations
-"""
+level = st.selectbox(
+    "Difficulty Level",
+    ["Easy", "Medium", "Hard"]
 )
 
-chain = question_prompt | llm
+count = st.number_input(
+    "Number of Questions",
+    min_value=1,
+    max_value=10,
+    value=5
+)
 
-result = chain.invoke({
-    "topic": "Java Threads",
-    "level": "beginner",
-    "count": 5
-})
+# ---- Action ----
+if st.button("Generate Questions"):
+    with st.spinner("Generating questions..."):
+        result = generate_questions(topic, level, count)
 
-print(result)
+    st.success("Questions generated successfully!")
+    st.text_area(
+        "Generated Questions",
+        result,
+        height=300
+    )
