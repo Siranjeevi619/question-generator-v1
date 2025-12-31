@@ -4,3 +4,5 @@ python-dotenv~=1.2.1
 langchain-core~=1.2.5
 ipython~=9.8.0
 langchain-groq
+langchain
+langchain_community
