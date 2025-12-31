@@ -9,7 +9,7 @@ st.set_page_config(
 st.title("🧠 AI Question Generator")
 st.write("Generate interview questions using LangChain + Groq")
 
-# ---- Inputs ----
+
 topic = st.text_input("Topic", value="JVM")
 
 level = st.selectbox(
@@ -24,7 +24,7 @@ count = st.number_input(
     value=5
 )
 
-# ---- Action ----
+
 if st.button("Generate Questions"):
     with st.spinner("Generating questions..."):
         result = generate_questions(topic, level, count)
